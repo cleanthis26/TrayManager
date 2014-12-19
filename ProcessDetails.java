@@ -1,24 +1,24 @@
 public class ProcessDetails {
-	private String description; // This MUST be contained in the command line string
-	private String processName; // Process name as it appears in task manager
-	private Boolean isRunning;
-	private int processID;
-	private String commandLine;
-	private String execPath;
-	private long memoryUsage; // in bytes
-	
 
-	public ProcessDetails(String description, String processName) {
-		this.description = description;
-		this.processName = processName;
-		this.isRunning = false;
-		this.processID = 0;
-		this.commandLine = "";
-		this.execPath = "";
-		this.memoryUsage = 0;
-	}
+    private String description; // This MUST be contained in the command line string
+    private String processName; // Process name as it appears in task manager
+    private Boolean isRunning;
+    private int processID;
+    private String commandLine;
+    private String execPath;
+    private long memoryUsage; // in bytes
 
-	public String getDescription() {
+    public ProcessDetails(String processName, String description) {
+        this.description = description;
+        this.processName = processName;
+        this.isRunning = false;
+        this.processID = 0;
+        this.commandLine = "";
+        this.execPath = "";
+        this.memoryUsage = 0;
+    }
+
+    public String getDescription() {
         return description;
     }
 
@@ -26,7 +26,7 @@ public class ProcessDetails {
         this.description = description;
     }
 
-	public String getProcessName() {
+    public String getProcessName() {
         return processName;
     }
 
@@ -73,4 +73,4 @@ public class ProcessDetails {
     public void setMemoryUsage(long memoryUsage) {
         this.memoryUsage = memoryUsage;
     }
-}
+} // ProcessDetails
