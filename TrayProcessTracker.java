@@ -20,12 +20,16 @@ public class TrayProcessTracker {
     private static Image trayImgCheck;
     private static Timer checkTimer;
     private static java.util.List<ProcessDetails> allProcesses = new ArrayList<ProcessDetails>();
-    private static Date lastCheck = new Date(System.currentTimeMillis());
-    private static Date nextCheck = new Date(System.currentTimeMillis() + checkInterval);
+    private static OSCheck.OSType ostype;
 
     private static void setTrayStatus(Boolean running, long checkTime, long memUsage) {
         Date lastCheck = new Date(checkTime);
         Date nextCheck = new Date(checkTime + checkInterval);
+
+        if (checkTimer.isRunning()) {
+            checkTimer.stop();
+        }
+
         String toolTipText = "TomCat: [[" + (running ? "Running" : "Stopped") + "]]\n";
 
         if (running) {
@@ -35,6 +39,8 @@ public class TrayProcessTracker {
         } else {
             trayIcon.setImage(trayImgStop);
         }
+
+        checkTimer.start();
         toolTipText += "Last Check: " + lastCheck.toString() + "\nNext Check: " + nextCheck.toString();
         trayIcon.setToolTip(toolTipText);
     }
@@ -68,14 +74,30 @@ public class TrayProcessTracker {
     };
 
     public static void main(String[] args) {
+        // Check if tray is supported
+        if (!SystemTray.isSupported()) {
+            System.out.println("Your operating system does not support the System Tray. System exiting...");
+            System.exit(0);
+        }
+
+        // Check operating system
+        ostype = OSCheck.getOperatingSystemType();
+
+        System.out.println("OS Detected: " + ostype.toString());
+        if (ostype.equals(OSCheck.OSType.Windows)) {
+            System.out.println("WIN OK");
+        } else {
+            System.out.println("Your operating system is not (yet) supported. System exiting...");
+            System.exit(0);
+        }
+
         // Set up process
         ProcessDetails apacheProcessDetails = new ProcessDetails("java.exe", "Apache Tomcat 6.0.");
-        //apacheProcessDetails = new ProcessDetails("notepad.exe", "notepad");
+        apacheProcessDetails = new ProcessDetails("notepad.exe", "notepad");
         allProcesses.add(apacheProcessDetails);
         setUpTray();
-        checkIfProcEnabled();
         checkTimer = new Timer(checkInterval, processTimerAction);
-        checkTimer.start();
+        checkIfProcEnabled();
     } // main
 
     private static void setUpTray() {
@@ -102,7 +124,9 @@ public class TrayProcessTracker {
             public void mouseMoved(MouseEvent e) {
                 long currCheck = System.currentTimeMillis();
                 if ((currCheck - lastCheck) >= 1000) {
+                    checkTimer.stop();
                     checkIfProcEnabled();
+                    checkTimer.start();
                     lastCheck = currCheck;
                 }
             }
