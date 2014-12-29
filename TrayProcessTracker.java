@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2014 Cleanthis E. Metaxas
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.ImageIcon;

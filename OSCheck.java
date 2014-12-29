@@ -1,4 +1,6 @@
 /**
+ * Copyright (C) 2014 Cleanthis E. Metaxas
+ *
  * helper class to check the operating system this Java VM runs in
  *
  * please keep the notes below as a pseudo-license

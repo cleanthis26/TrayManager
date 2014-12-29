@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2014 Cleanthis E. Metaxas
+ */
+
 public class ProcessDetails {
 
     private String description; // This MUST be contained in the command line string

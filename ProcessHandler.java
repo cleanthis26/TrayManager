@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2014 Cleanthis E. Metaxas
+ */
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
